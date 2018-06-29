@@ -6,7 +6,7 @@
 	var tecken = document.getElementById("tecken").value;
 	var password = document.getElementById("password").value;
 	var game = document.getElementById("game").value;
-
+ 
 	var encrypted = CryptoJS.AES.encrypt(game + " " + homeGoals + "-" + awayGoals + " " + tecken, password);
 	console.log(encrypted.toString());
 	// will output something like:
