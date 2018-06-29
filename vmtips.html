@@ -1,0 +1,70 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+<script>
+  function calc(){
+	var homeGoals = document.getElementById("home").value;	
+	var awayGoals = document.getElementById("away").value;
+	var tecken = document.getElementById("tecken").value;
+	var password = document.getElementById("password").value;
+	var game = document.getElementById("game").value;
+
+	var encrypted = CryptoJS.AES.encrypt(game + " " + homeGoals + "-" + awayGoals + " " + tecken, password);
+	console.log(encrypted.toString());
+	// will output something like:
+	// U2FsdGVkX1/l/LqNSCQixd0iPv4neKAGZvbQDbYUovZE4OcM7l3ULNDgkZQmrweN
+
+	document.getElementById("hash").innerHTML = "[" + game + " " + encrypted.toString() + "]";
+	
+	var decrypted = CryptoJS.AES.decrypt(encrypted, password);
+	document.getElementById("result").innerHTML = decrypted.toString(CryptoJS.enc.Utf8);
+	console.log();
+  }
+  
+  function test(){
+	var hashTest = document.getElementById("hashTest").value;	
+	var password = document.getElementById("passwordTest").value;
+	
+	var decrypted = CryptoJS.AES.decrypt(hashTest, password);
+	document.getElementById("decrypted").innerHTML = decrypted.toString(CryptoJS.enc.Utf8);
+  }
+  
+ 
+  // Lorem ipsum dolor sit amet, ...	
+</script>
+<html>
+<body>
+<h1>Arseltipset</h1>
+  <h3>Skapa tips<br></h3>
+  <table>
+  <tr><td>Match:</td> <td><select id="game">
+	<option value="Frankrike - Argentina">Frankrike - Argentina</option>
+	<option value="Uruguay - Portugal">Uruguay - Portugal</option>
+  </select></td></tr>
+  <tr><td>Slutresultat:</td><td><input style="width: 50px" type="number" id="home"> - <input style="width: 50px" type="number" id="away"></td></tr> 
+  <tr><td>Tecken:</td><td><select id="tecken">
+	<option value="1">1</option	>
+	<option value="X">X</option>
+	<option value="X">2</option>
+  </select></td></tr>
+  <tr><td>Lösenord:</td> <td> <input style="width: 200px" type="text" id="password"></td></tr>	
+  </table>
+  
+  <input type="submit" value="Skapa" onClick="calc()"><br>
+  
+    
+  <br>
+  Du tippar: <b id="result"></b><br>
+  Skicka till torken: <b id="hash"></b>
+  <!--<h1>Skriv ner ditt lösenord någonstans!</h1>-->
+  <br><br>
+  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  
+  <h3>Visa tips<br></h3>
+  <table>
+  <tr><td>Sträng:</td><td><input style="width: 500px" type="text" id="hashTest"></td></tr>
+  <tr><td>Lösenord:</td><td><input style="width: 200px" type="text" id="passwordTest"></td></tr>
+  </table>
+  <input type="submit" value="Testa" onClick="test()">
+  <h4 id="decrypted"></h4>
+ 
+</body>
+</html>
